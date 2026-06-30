@@ -1,0 +1,248 @@
+/* ============================================================
+   EGYPT JERSEY — Custom theme overrides for Shopify Horizon
+   Append the entire contents of this file to the BOTTOM of
+   your existing assets/base.css. Do not replace the original.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   CSS CUSTOM PROPERTIES (design tokens)
+   Change colours here — they cascade everywhere below.
+   ---------------------------------------------------------- */
+:root {
+  --ej-bg-dark:        #1a1a1a;   /* charcoal — main section backgrounds */
+  --ej-bg-section:     #1f1f1f;   /* slightly lighter for alternating sections */
+  --ej-gold:           #C9A961;   /* primary accent: headings, borders, icons */
+  --ej-gold-hover:     #b8923f;   /* gold pressed / focus state */
+  --ej-red-dark:       #7a1a1a;   /* deep red — button hover background */
+  --ej-text-light:     #f0e6d3;   /* warm off-white for body text on dark bg */
+  --ej-divider:        rgba(201, 169, 97, 0.35); /* semi-transparent gold line */
+}
+
+/* ----------------------------------------------------------
+   GLOBAL SECTION BACKGROUND
+   Applies to Horizon's standard .section wrapper so every
+   content section below the hero inherits the dark theme.
+   ---------------------------------------------------------- */
+.section {
+  background-color: var(--ej-bg-dark);
+  color: var(--ej-text-light);
+}
+
+/* Alternate sections get a hair-lighter shade for depth */
+.section:nth-of-type(even) {
+  background-color: var(--ej-bg-section);
+}
+
+/* ----------------------------------------------------------
+   TIGHTER VERTICAL RHYTHM
+   Horizon's defaults add too much breathing room; reduce
+   section padding so the page feels full, not sparse.
+   ---------------------------------------------------------- */
+.section {
+  padding-top: 3rem;     /* was ~6rem in default Horizon */
+  padding-bottom: 3rem;
+}
+
+@media screen and (min-width: 750px) {
+  .section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+/* Tighten grid gaps inside sections */
+.grid {
+  row-gap: 1.5rem;    /* was 3rem */
+  column-gap: 1.5rem;
+}
+
+/* ----------------------------------------------------------
+   HEADINGS & TEXT ACCENTS
+   H1–H3 get the gold treatment; H4–H6 stay off-white.
+   ---------------------------------------------------------- */
+h1, h2, h3,
+.section__heading,
+.collection__title,
+.product__title {
+  color: var(--ej-gold);
+  letter-spacing: 0.04em;
+}
+
+h4, h5, h6 {
+  color: var(--ej-text-light);
+}
+
+/* Links inside dark sections */
+.section a:not(.button) {
+  color: var(--ej-gold);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.section a:not(.button):hover {
+  color: var(--ej-gold-hover);
+  text-decoration: underline;
+}
+
+/* ----------------------------------------------------------
+   SECTION DIVIDER — CSS-ONLY PYRAMID / TRIANGLE TEXTURE
+   Uses a repeating linear-gradient to fake a triangular tile
+   pattern. The .section-divider element can be placed between
+   any two sections in your Liquid templates:
+       <div class="section-divider"></div>
+   ---------------------------------------------------------- */
+.section-divider {
+  width: 100%;
+  height: 60px;
+  /* Two overlapping 45-degree gradients create a repeating
+     diamond/pyramid silhouette in translucent gold on dark. */
+  background-color: var(--ej-bg-dark);
+  background-image:
+    linear-gradient(
+      135deg,
+      var(--ej-divider) 25%,
+      transparent 25%,
+      transparent 50%,
+      var(--ej-divider) 50%,
+      var(--ej-divider) 75%,
+      transparent 75%,
+      transparent
+    ),
+    linear-gradient(
+      45deg,
+      var(--ej-divider) 25%,
+      transparent 25%,
+      transparent 50%,
+      var(--ej-divider) 50%,
+      var(--ej-divider) 75%,
+      transparent 75%,
+      transparent
+    );
+  background-size: 30px 30px; /* tile size — increase for larger pyramids */
+  opacity: 0.6;
+  border-top: 1px solid var(--ej-divider);
+  border-bottom: 1px solid var(--ej-divider);
+}
+
+/* Standalone horizontal rule styled as a thin gold line */
+.ej-rule {
+  border: none;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--ej-gold) 20%,
+    var(--ej-gold) 80%,
+    transparent
+  );
+  margin: 2rem auto;
+  max-width: 200px;
+}
+
+/* ----------------------------------------------------------
+   BUTTON OVERRIDES
+   Gold background, black text. Hover shifts to deep red.
+   Applies to Horizon's .button class (add/cart, CTA, etc.)
+   ---------------------------------------------------------- */
+.button,
+.button--primary {
+  background-color: var(--ej-gold) !important;
+  color: #000 !important;
+  border: 2px solid var(--ej-gold) !important;
+  border-radius: 3px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.button:hover,
+.button--primary:hover,
+.button:focus-visible,
+.button--primary:focus-visible {
+  background-color: var(--ej-red-dark) !important;
+  border-color: var(--ej-red-dark) !important;
+  color: #fff !important;
+}
+
+/* Secondary / outline buttons */
+.button--secondary {
+  background-color: transparent !important;
+  color: var(--ej-gold) !important;
+  border: 2px solid var(--ej-gold) !important;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.button--secondary:hover,
+.button--secondary:focus-visible {
+  background-color: var(--ej-gold) !important;
+  color: #000 !important;
+}
+
+/* ----------------------------------------------------------
+   PRODUCT CARDS
+   Dark card background, gold border on hover.
+   ---------------------------------------------------------- */
+.card,
+.product-card-wrapper {
+  background-color: var(--ej-bg-section);
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover,
+.product-card-wrapper:hover {
+  border-color: var(--ej-gold);
+  box-shadow: 0 4px 20px rgba(201, 169, 97, 0.15);
+}
+
+.card__heading,
+.card .h3 {
+  color: var(--ej-gold);
+}
+
+/* Price text */
+.price,
+.price__regular,
+.price__sale {
+  color: var(--ej-text-light);
+}
+
+/* ----------------------------------------------------------
+   FEATURED COLLECTION SECTION
+   ---------------------------------------------------------- */
+.featured-collection .title,
+.featured-collection h2 {
+  color: var(--ej-gold);
+  text-align: center;
+}
+
+/* ----------------------------------------------------------
+   ABOUT / RICH TEXT SECTION
+   Horizon's rich-text and image-with-text sections.
+   ---------------------------------------------------------- */
+.rich-text__heading,
+.image-with-text__heading {
+  color: var(--ej-gold);
+}
+
+.rich-text__text,
+.image-with-text__text {
+  color: var(--ej-text-light);
+}
+
+/* ----------------------------------------------------------
+   FOOTER — keep consistent dark palette
+   ---------------------------------------------------------- */
+.footer {
+  background-color: #111;
+  color: var(--ej-text-light);
+  border-top: 2px solid var(--ej-divider);
+}
+
+.footer__heading {
+  color: var(--ej-gold);
+}
+
+/* ============================================================
+   END OF EGYPT JERSEY CUSTOM OVERRIDES
+   ============================================================ */

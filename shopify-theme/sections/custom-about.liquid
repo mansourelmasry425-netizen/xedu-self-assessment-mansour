@@ -1,0 +1,279 @@
+{% comment %}
+  ============================================================
+  EGYPT JERSEY — Custom About Section
+  File: sections/custom-about.liquid
+
+  HOW TO ADD TO YOUR THEME:
+  1. Go to Online Store → Themes → Edit code
+  2. Under "Sections", click "Add a new section"
+  3. Name it: custom-about
+  4. Paste this entire file and save
+  5. In the Theme Customizer, drag "Egypt Jersey – About" into
+     your page layout wherever you want the About block.
+  ============================================================
+{% endcomment %}
+
+{%- liquid
+  assign heading   = section.settings.heading
+  assign body_text = section.settings.body_text
+  assign cta_label = section.settings.cta_label
+  assign cta_url   = section.settings.cta_url
+  assign image_alt = section.settings.image_alt | default: 'Egypt Jersey'
+-%}
+
+<section
+  id="custom-about-{{ section.id }}"
+  class="ej-about section"
+  aria-label="{{ heading | escape }}"
+>
+  {%- comment %} Optional pyramid-pattern divider above the section {% endcomment %}
+  {%- if section.settings.show_top_divider %}
+    <div class="section-divider" aria-hidden="true"></div>
+  {%- endif %}
+
+  <div class="ej-about__inner page-width">
+
+    {%- comment %}
+      ── LEFT COLUMN: text content ──
+      On mobile this stacks above the graphic.
+    {% endcomment %}
+    <div class="ej-about__text">
+
+      {%- comment %} Decorative overline label {% endcomment %}
+      <p class="ej-about__overline">Est. Dallas, TX</p>
+
+      <h2 class="ej-about__heading">{{ heading }}</h2>
+
+      {%- comment %} Thin gold rule below the heading {% endcomment %}
+      <hr class="ej-rule" aria-hidden="true">
+
+      <div class="ej-about__body rte">
+        {{ body_text }}
+      </div>
+
+      {%- comment %} CTA button — only renders if a label is set {% endcomment %}
+      {%- if cta_label != blank %}
+        <a
+          href="{{ cta_url | default: '#' }}"
+          class="button button--primary ej-about__cta"
+        >
+          {{ cta_label }}
+        </a>
+      {%- endif %}
+
+    </div>{%- comment %} /.ej-about__text {% endcomment %}
+
+    {%- comment %}
+      ── RIGHT COLUMN: graphic / icon placeholder ──
+      Replace the SVG below with an <img> tag pointing to your
+      actual image once you upload one to Files in Shopify admin.
+      Example:
+        <img src="{{ section.settings.image | img_url: '600x' }}"
+             alt="{{ image_alt }}" loading="lazy">
+    {% endcomment %}
+    <div class="ej-about__graphic" aria-hidden="true">
+
+      {%- comment %}
+        CSS-only Egyptian-inspired graphic:
+        Concentric diamond shapes built with borders and
+        the gold/dark palette — no image file needed.
+        Swap this entire <div class="ej-diamond"> block for
+        an <img> tag whenever you have a real asset ready.
+      {% endcomment %}
+      <div class="ej-diamond ej-diamond--outer">
+        <div class="ej-diamond ej-diamond--mid">
+          <div class="ej-diamond ej-diamond--inner">
+            <span class="ej-diamond__label">EJ</span>
+          </div>
+        </div>
+      </div>
+
+    </div>{%- comment %} /.ej-about__graphic {% endcomment %}
+
+  </div>{%- comment %} /.ej-about__inner {% endcomment %}
+
+  {%- if section.settings.show_bottom_divider %}
+    <div class="section-divider" aria-hidden="true"></div>
+  {%- endif %}
+
+</section>
+
+{%- comment %}
+  ============================================================
+  STYLES — scoped to this section so they don't bleed out.
+  All colour values reference the CSS variables defined in
+  assets/base.css so changing --ej-gold there updates here too.
+  ============================================================
+{% endcomment %}
+<style>
+  /* ── Outer section shell ─────────────────────────────────── */
+  #custom-about-{{ section.id }} {
+    background-color: var(--ej-bg-dark, #1a1a1a);
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  /* ── Two-column grid ─────────────────────────────────────── */
+  .ej-about__inner {
+    display: grid;
+    grid-template-columns: 1fr;   /* mobile: single column */
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  /* Desktop: two equal columns, text left / graphic right.
+     Flip the column order below if you prefer graphic on left. */
+  @media screen and (min-width: 750px) {
+    .ej-about__inner {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  /* ── Text column ─────────────────────────────────────────── */
+  .ej-about__overline {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ej-gold, #C9A961);
+    margin-bottom: 0.5rem;
+  }
+
+  .ej-about__heading {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: var(--ej-gold, #C9A961);
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .ej-about__body {
+    color: var(--ej-text-light, #f0e6d3);
+    line-height: 1.75;
+    font-size: 1rem;
+    margin-bottom: 1.75rem;
+  }
+
+  /* RTE (rich text editor) paragraphs inside the body */
+  .ej-about__body p {
+    margin-bottom: 1em;
+  }
+
+  .ej-about__cta {
+    display: inline-block;
+  }
+
+  /* ── Graphic column ──────────────────────────────────────── */
+  .ej-about__graphic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+  }
+
+  /* ── CSS diamond / pyramid mark-up ──────────────────────── */
+  /* Each .ej-diamond is a square rotated 45° to form a diamond. */
+  .ej-diamond {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(45deg);
+  }
+
+  .ej-diamond--outer {
+    width: 180px;
+    height: 180px;
+    border: 3px solid var(--ej-gold, #C9A961);
+    background-color: transparent;
+  }
+
+  .ej-diamond--mid {
+    width: 130px;
+    height: 130px;
+    border: 2px solid rgba(201, 169, 97, 0.5);
+    background-color: transparent;
+  }
+
+  .ej-diamond--inner {
+    width: 80px;
+    height: 80px;
+    background-color: var(--ej-gold, #C9A961);
+    border: none;
+  }
+
+  /* The text label inside the diamond needs counter-rotation */
+  .ej-diamond__label {
+    display: block;
+    transform: rotate(-45deg);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #000;
+    letter-spacing: 0.1em;
+  }
+</style>
+
+{%- comment %}
+  ============================================================
+  SCHEMA — controls the Theme Customizer sidebar panel.
+  Each "settings" entry becomes an editable field.
+  ============================================================
+{% endcomment %}
+{% schema %}
+{
+  "name": "Egypt Jersey – About",
+  "tag": "section",
+  "class": "section",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "About Egypt Jersey"
+    },
+    {
+      "type": "richtext",
+      "id": "body_text",
+      "label": "Body Text",
+      "default": "<p>Egypt Jersey is a Dallas-based brand celebrating the passion, artistry, and pride of Egyptian football culture. Every jersey tells a story — from the banks of the Nile to the pitch.</p><p>We craft limited-edition pieces for fans who carry Egypt in their hearts, wherever they play.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button Label",
+      "default": "Shop the Collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Graphic Alt Text (accessibility)",
+      "default": "Egypt Jersey brand mark"
+    },
+    {
+      "type": "header",
+      "content": "Dividers"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_top_divider",
+      "label": "Show pyramid divider above section",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bottom_divider",
+      "label": "Show pyramid divider below section",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Egypt Jersey – About"
+    }
+  ]
+}
+{% endschema %}
